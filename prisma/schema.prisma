@@ -19,18 +19,21 @@ model User {
 }
 
 model List {
-  id        String   @id @default(cuid())
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  items     Item[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  isArchived Boolean  @default(false)
+  items      Item[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Item {
   id        String   @id @default(cuid())
   list      List     @relation(fields: [listId], references: [id])
   listId    String
+  isDone    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
