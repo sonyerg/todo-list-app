@@ -6,9 +6,8 @@ import { UserButton } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
 import { SignInButton } from "./sign-in-button";
-import Lists from "./lists";
-
 import NewListButton from "./new-list-button";
+import Lists from "./lists";
 import { Separator } from "./ui/separator";
 
 export default async function SideBar() {
@@ -25,7 +24,7 @@ export default async function SideBar() {
   });
 
   return (
-    <aside className="w-full px-4 h-screen mt-2 space-y-2">
+    <aside className="px-4 h-screen mt-2 space-y-6">
       <div className="mt-4">
         {!userId && <SignInButton />}
         {userId && <UserButton />}
