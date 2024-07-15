@@ -16,8 +16,7 @@ datasource db {
 model List {
   id         String   @id @default(cuid())
   name       String
-  author     User     @relation(fields: [authorId], references: [id])
-  authorId   String
+  userId     String
   isArchived Boolean  @default(false)
   items      Item[]
   createdAt  DateTime @default(now())
