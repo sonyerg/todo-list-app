@@ -6,34 +6,24 @@ import { useState } from "react";
 import ListItemForm from "./list-item-form";
 import { Checkbox } from "@/components/ui/checkbox";
 
-/*TODO: 
-  1. Add button to add a new item.
-  2. Use useState to show an "input bar" where you can input the new item.
-  3. Hide the "input bar" when submitted.
-  4. Add an api route to add new item to the current selected list.
-*/
-
 export default function ListItems({ listItems }: { listItems: Item[] }) {
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAdding, setIsAdding] = useState(true);
 
   const onAddClick = () => {
     setIsAdding(true);
   };
 
   return (
-    <div className="p-10">
+    <div className="mt-2">
       {listItems.map((list) => (
-        <div
-          key={list.id}
-          className="flex flex-row items-center  gap-2 space-y-2"
-        >
+        <div key={list.id} className="flex flex-row items-center gap-2 py-2">
           <Checkbox />
-          <p>{`${list.item}`}</p>
+          <p className="text-base">{`${list.item}`}</p>
         </div>
       ))}
-      {isAdding && <ListItemForm />}
-      <div>
-        <Button variant="ghost" onClick={onAddClick}>
+      {isAdding && <ListItemForm setIsAdding={setIsAdding} />}
+      <div className="pt-4">
+        <Button variant="default" onClick={onAddClick}>
           + Add an item
         </Button>
       </div>

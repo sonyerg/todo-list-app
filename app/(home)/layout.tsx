@@ -11,7 +11,7 @@ export default function HomeLayout({
 }) {
   return (
     <div className="flex flex-row">
-      <div className="w-1/3 border-r">
+      <div className="w-1/3 border-r md:block hidden">
         <SideBar />
       </div>
       {children}

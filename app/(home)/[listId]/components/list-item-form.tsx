@@ -20,12 +20,16 @@ import { Check, X } from "lucide-react";
 import { useState } from "react";
 
 const formSchema = z.object({
-  item: z.string().min(1),
+  item: z.string().min(1).max(50),
 });
 
 type ListItemFormValue = z.infer<typeof formSchema>;
 
-export default function ListItemForm() {
+interface ListItemFormProps {
+  setIsAdding: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ListItemForm({ setIsAdding }: ListItemFormProps) {
   const router = useRouter();
   const params = useParams();
 
@@ -50,11 +54,12 @@ export default function ListItemForm() {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
+      setIsAdding(false);
     }
   };
 
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="md:grid grid-cols-2 gap-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-row gap-2">
@@ -66,7 +71,7 @@ export default function ListItemForm() {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="add to-do"
+                      placeholder="Add a to-do"
                       {...field}
                     />
                   </FormControl>

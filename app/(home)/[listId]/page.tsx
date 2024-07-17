@@ -31,18 +31,20 @@ export default async function HomePage({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between border-b h-10 px-2">
-        <p className="font-semibold text-xl">{list?.name}</p>
+      {/* <div className="flex items-center justify-between border-b h-10 px-2">
         <div className="flex items-center">
           <Button type="button" variant="ghost">
             <Ellipsis size="20" />
           </Button>
         </div>
-      </div>
+      </div> */}
       <div className="sm:h-64 h-72 relative object-cover">
         <Image src={backgroundImage} alt="" fill className="object-cover" />
       </div>
-      <ListItems listItems={list?.items ?? []} />
+      <div className="md:ml-36 lg:ml-44 ml-8 md:mt-20 mt-12">
+        <p className="font-bold text-4xl">{list?.name}</p>
+        <ListItems listItems={list?.items ?? []} />
+      </div>
     </div>
   );
 }
