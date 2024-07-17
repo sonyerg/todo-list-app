@@ -1,5 +1,7 @@
 "use client";
 
+//TODO: add an edit feature for the item and api route for patch
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,7 +48,7 @@ export default function ListItemForm({ setIsAdding }: ListItemFormProps) {
     try {
       setLoading(true);
 
-      await axios.post(`/api/${params.listId}`, data);
+      await axios.post(`/api/${params.listId}/items`, data);
 
       router.push(`/${params.listId}`);
       router.refresh();
