@@ -1,11 +1,9 @@
 import Image from "next/image";
-import { Ellipsis } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import prismadb from "@/lib/prismadb";
 import backgroundImage from "@/public/images/background-image.jpg";
-import { Button } from "@/components/ui/button";
 import ListItems from "./components/list-items";
 
 export default async function HomePage({
