@@ -24,10 +24,11 @@ model List {
 }
 
 model Item {
-  id        String   @id @default(cuid())
-  list      List     @relation(fields: [listId], references: [id])
+  id        String    @id @default(cuid())
+  item      String
+  list      List      @relation(fields: [listId], references: [id])
   listId    String
-  isDone    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isDone    Boolean   @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

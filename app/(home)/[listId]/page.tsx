@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import backgroundImage from "@/public/images/background-image.jpg";
 import { Button } from "@/components/ui/button";
+import ListItems from "./components/list-items";
 
 export default async function HomePage({
   params,
@@ -23,6 +24,9 @@ export default async function HomePage({
       userId,
       id: params.listId,
     },
+    include: {
+      items: true,
+    },
   });
 
   return (
@@ -38,6 +42,7 @@ export default async function HomePage({
       <div className="sm:h-64 h-72 relative object-cover">
         <Image src={backgroundImage} alt="" fill className="object-cover" />
       </div>
+      <ListItems listItems={list?.items ?? []} />
     </div>
   );
 }

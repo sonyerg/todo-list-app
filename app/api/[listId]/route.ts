@@ -2,30 +2,33 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request,
+  { params }: { params: { listId: string } }
+) {
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { name } = body;
+    const { item } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!name) {
-      return new NextResponse("Name Required", { status: 400 });
+    if (!item) {
+      return new NextResponse("Todo Item Required", { status: 400 });
     }
 
-    const list = await prismadb.list.create({
+    const listItem = await prismadb.item.create({
       data: {
-        name,
-        userId,
+        item,
+        listId: params.listId,
       },
     });
 
-    return NextResponse.json(list);
+    return NextResponse.json(listItem);
   } catch (error) {
-    console.log("[LIST_POST]", error);
+    console.log("[LIST_ITEM_POST]", error);
 
     return new NextResponse("Internal Error", { status: 500 });
   }

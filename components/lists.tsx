@@ -6,6 +6,8 @@ import { List } from "@prisma/client";
 import { Button } from "./ui/button";
 import { Trash } from "lucide-react";
 
+//TODO: Add delete list function and api route
+
 export default function Lists({ lists }: { lists: List[] }) {
   return (
     <div className="flex flex-col gap-1 border rounded-md overflow-auto py-2 pr-2">
