@@ -11,8 +11,6 @@ import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/alert-modal";
 import { useParams, useRouter } from "next/navigation";
 
-//TODO: Add delete list function and api route
-
 export default function Lists({ lists }: { lists: List[] }) {
   const params = useParams();
   const router = useRouter();
@@ -25,11 +23,11 @@ export default function Lists({ lists }: { lists: List[] }) {
       setLoading(true);
 
       await axios.delete(`/api/lists/${params.listId}`);
+      window.location.assign("/");
       router.refresh();
       toast.success("Store deleted");
-      window.location.assign("/");
     } catch (error: any) {
-      toast.error(error);
+      toast.error("Error deleting list.");
     }
   }
 
