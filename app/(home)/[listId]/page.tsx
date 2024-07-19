@@ -5,8 +5,10 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import backgroundImage from "@/public/images/background-image.jpg";
 import ListItems from "./components/list-items";
+import { Edit } from "lucide-react";
+import ListNameForm from "./components/list-name-form";
 
-export default async function HomePage({
+export default async function ListPage({
   params,
 }: {
   params: { listId: string };
@@ -39,9 +41,11 @@ export default async function HomePage({
       <div className="sm:h-64 h-72 relative object-cover">
         <Image src={backgroundImage} alt="" fill className="object-cover" />
       </div>
-      <div className="md:ml-36 lg:ml-44 ml-8 md:mt-20 mt-12">
-        <p className="font-bold text-4xl">{list?.name}</p>
-        <ListItems listItems={list?.items ?? []} />
+      <div className="md:ml-36 lg:ml-44 ml-8 md:mt-20 mt-12 mr-20">
+        <ListNameForm listName={list?.name || ""} />
+        <div className="pl-4">
+          <ListItems listItems={list?.items || []} />
+        </div>
       </div>
     </div>
   );

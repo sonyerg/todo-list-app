@@ -6,6 +6,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { Check } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -18,8 +20,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
-import { useState } from "react";
 
 const formSchema = z.object({
   item: z.string().min(1).max(50),
@@ -27,11 +27,7 @@ const formSchema = z.object({
 
 type ListItemFormValue = z.infer<typeof formSchema>;
 
-interface ListItemFormProps {
-  setIsAdding: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function ListItemForm({ setIsAdding }: ListItemFormProps) {
+export default function ListItemForm() {
   const router = useRouter();
   const params = useParams();
 
@@ -56,12 +52,11 @@ export default function ListItemForm({ setIsAdding }: ListItemFormProps) {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
-      setIsAdding(false);
     }
   };
 
   return (
-    <div className="md:grid grid-cols-2 gap-8">
+    <div className="lg:grid grid-cols-2 my-2">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-row gap-2">
@@ -83,9 +78,6 @@ export default function ListItemForm({ setIsAdding }: ListItemFormProps) {
             />
             <Button size="sm" variant="ghost" type="submit" disabled={loading}>
               <Check size={15} />
-            </Button>
-            <Button size="sm" variant="ghost" type="reset" disabled={loading}>
-              <X size={15} />
             </Button>
           </div>
         </form>
