@@ -104,7 +104,7 @@ export default function ListModal() {
                   Cancel
                 </Button>
                 <Button disabled={loading} type="submit">
-                  Continue
+                  Create
                 </Button>
               </div>
             </form>

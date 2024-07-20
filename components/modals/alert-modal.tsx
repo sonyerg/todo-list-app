@@ -46,7 +46,7 @@ export default function AlertModal({
           Cancel
         </Button>
         <Button disabled={loading} variant="destructive" onClick={onConfirm}>
-          Continue
+          Delete List
         </Button>
       </div>
     </Modal>
