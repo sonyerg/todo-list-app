@@ -46,7 +46,7 @@ export default function ListItemForm() {
 
       await axios.post(`/api/${params.listId}/items`, data);
 
-      router.push(`/${params.listId}`);
+      // router.push(`/${params.listId}`);
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");

@@ -19,10 +19,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 export default function ListModal() {
   const listModal = useListModal();
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const formSchema = z.object({
     name: z.string().min(1),
@@ -39,10 +42,11 @@ export default function ListModal() {
     try {
       setLoading(true);
 
-      const response = await axios.post("/api/lists", values);
+      await axios.post("/api/lists", values);
       toast.success("List created!");
 
-      window.location.assign(`/${response.data.id}`);
+      router.refresh();
+      listModal.onClose();
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
