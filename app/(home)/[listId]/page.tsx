@@ -29,6 +29,10 @@ export default async function ListPage({
     },
   });
 
+  if (!list) {
+    redirect("/");
+  }
+
   return (
     <div className="w-full">
       {/* <div className="flex items-center justify-between border-b h-10 px-2">
