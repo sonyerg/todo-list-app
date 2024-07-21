@@ -1,18 +1,27 @@
 "use client";
 
-import { Item } from "@prisma/client";
-
-import ListItemForm from "./list-item-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Item } from "@prisma/client";
+import { X } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-//TODO: add edit and delete function for items.
-//TODO: add initial data in list-item-form and make if-else whether to patch or to post.
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import ListItemForm from "./list-item-form";
 
 export default function ListItems({ listItems }: { listItems: Item[] }) {
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
     Array(listItems.length).fill(false)
   );
+  const [isEditing, setIsEditing] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [editValue, setEditValue] = useState<string>("");
+
+  const params = useParams();
+  const router = useRouter();
 
   function onCheck(index: number) {
     const newCheckedItems = [...checkedItems];
@@ -22,18 +31,91 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
     setCheckedItems(newCheckedItems);
   }
 
+  function onEditClick(index: number, currentItem: string) {
+    setIsEditing(index);
+    setEditValue(currentItem);
+  }
+
+  async function onSave(itemId: string) {
+    try {
+      setIsLoading(true);
+
+      await axios.patch(`/api/${params.listId}/items/${itemId}`, {
+        item: editValue,
+      });
+
+      setIsEditing(null);
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function onDelete(itemId: string) {
+    try {
+      setIsLoading(true);
+
+      await axios.delete(`/api/${params.listId}/items/${itemId}`);
+
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="mt-2">
-      {listItems.map((list, index) => (
-        <div key={list.id} className="flex flex-row items-center gap-2 py-2">
+      {listItems.map((item, index) => (
+        <div key={item.id} className="flex flex-row items-center gap-2 group">
           <Checkbox onCheckedChange={() => onCheck(index)} />
-          <div className="md:w-[300px] w-[350px]">
-            <p
-              className={`text-base overflow-hidden overflow-ellipsis ${
-                checkedItems[index] ? "line-through" : ""
-              }`}
-            >{`${list.item}`}</p>
-          </div>
+          {isEditing === index ? (
+            <div className="flex flex-row items-center gap-2 ">
+              <Input
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                className="text-base"
+              />
+              <Button
+                variant="ghost"
+                onClick={() => onSave(item.id)}
+                disabled={isLoading}
+              >
+                Save
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setIsEditing(null)}
+                disabled={isLoading}
+              >
+                Cancel
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                className="flex justify-between"
+                onClick={() => onEditClick(index, item.item)}
+              >
+                <div className="md:w-[350px] w-[320px]">
+                  <p
+                    className={`text-base text-left overflow-hidden overflow-ellipsis ${
+                      checkedItems[index] ? "line-through" : ""
+                    } ${isLoading ? "text-gray-500" : ""}`}
+                  >
+                    {item.item}
+                  </p>
+                </div>
+              </Button>
+              <button onClick={() => onDelete(item.id)}>
+                <X size={20} className="group-hover:opacity-100 opacity-0" />
+              </button>
+            </>
+          )}
         </div>
       ))}
       <ListItemForm />

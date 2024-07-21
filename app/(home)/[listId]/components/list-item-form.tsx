@@ -1,7 +1,5 @@
 "use client";
 
-//TODO: add an edit feature for the item and api route for patch
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Item } from "@prisma/client";
 
 const formSchema = z.object({
   item: z.string().min(1).max(50),
@@ -45,8 +44,7 @@ export default function ListItemForm() {
       setLoading(true);
 
       await axios.post(`/api/${params.listId}/items`, data);
-
-      // router.push(`/${params.listId}`);
+      form.reset();
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
