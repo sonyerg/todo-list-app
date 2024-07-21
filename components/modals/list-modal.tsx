@@ -42,10 +42,11 @@ export default function ListModal() {
     try {
       setLoading(true);
 
-      await axios.post("/api/lists", values);
+      const response = await axios.post("/api/lists", values);
       toast.success("List created!");
 
       router.refresh();
+      window.location.assign(`/${response.data.id}`);
       listModal.onClose();
     } catch (error) {
       toast.error("Something went wrong");
