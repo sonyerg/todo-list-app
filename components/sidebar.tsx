@@ -21,6 +21,9 @@ export default async function SideBar() {
     where: {
       userId,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
   return (
