@@ -51,7 +51,7 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
     } finally {
       setTimeout(() => {
         setIsLoading(null);
-      setIsEditing(null);
+        setIsEditing(null);
       }, 500);
     }
   }
@@ -80,13 +80,18 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
                 onChange={(e) => setEditValue(e.target.value)}
                 className="text-base"
               />
-              <Button
-                variant="ghost"
-                onClick={() => onSave(item.id)}
-                disabled={isLoading === item.id}
-              >
-                Save
-              </Button>
+              {isLoading === item.id ? (
+                <CircularProgress size="sm" />
+              ) : (
+                <Button
+                  variant="ghost"
+                  onClick={() => onSave(item.id)}
+                  disabled={isLoading === item.id}
+                >
+                  Save
+                </Button>
+              )}
+
               <Button
                 variant="ghost"
                 onClick={() => setIsEditing(null)}
