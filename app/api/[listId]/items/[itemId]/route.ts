@@ -9,15 +9,18 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { item } = body;
+    const { item, isDone } = body;
+
+    console.log("Request Body:", body); // Log the request body
+    console.log("Params:", params); // Log the parameters
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!item) {
-      return new NextResponse("Todo Item Required", { status: 400 });
-    }
+    // if (!item) {
+    //   return new NextResponse("Todo Item Required", { status: 400 });
+    // }
 
     if (!params.listId) {
       return new NextResponse("List id is required", { status: 400 });
@@ -27,15 +30,16 @@ export async function PATCH(
       return new NextResponse("Item id is required", { status: 400 });
     }
 
-    const listItem = await prismadb.item.updateMany({
+    const dataToUpdate: any = {};
+    if (item !== undefined) dataToUpdate.item = item;
+    if (isDone !== undefined) dataToUpdate.isDone = isDone;
+
+    const listItem = await prismadb.item.update({
       where: {
         id: params.itemId,
         listId: params.listId,
       },
-
-      data: {
-        item,
-      },
+      data: dataToUpdate,
     });
 
     return NextResponse.json(listItem);
