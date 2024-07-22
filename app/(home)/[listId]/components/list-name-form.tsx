@@ -51,8 +51,10 @@ export default function ListNameForm({ listName }: { listName: string }) {
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
+      setTimeout(() => {
       setLoading(false);
       setIsEditing(false);
+      }, 500);
     }
   };
 
