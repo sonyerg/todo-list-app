@@ -49,8 +49,10 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
+      setTimeout(() => {
+        setIsLoading(null);
       setIsEditing(null);
-      setIsLoading(null);
+      }, 500);
     }
   }
 
