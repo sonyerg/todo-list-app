@@ -24,10 +24,9 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
   const params = useParams();
   const router = useRouter();
 
-  function onCheck(index: number) {
-    const newCheckedItems = [...checkedItems];
-    newCheckedItems[index] = !newCheckedItems[index];
-    // Toggle checked state for the specific item
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [inputRef, isEditing]);
 
     setCheckedItems(newCheckedItems);
   }
@@ -76,8 +75,14 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
           {isEditing === index ? (
             <div className="flex flex-row items-center gap-2 ">
               <Input
+                ref={inputRef}
                 value={editValue}
                 onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    onSave(item.id);
+                  }
+                }}
                 className="text-base"
               />
               {isLoading === item.id ? (
