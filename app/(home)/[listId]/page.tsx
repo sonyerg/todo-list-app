@@ -33,6 +33,15 @@ export default async function ListPage({
     redirect("/");
   }
 
+  const listItems = await prismadb.item.findMany({
+    where: {
+      listId: params.listId,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
   return (
     <div className="w-full">
       {/* <div className="flex items-center justify-between border-b h-10 px-2">
@@ -45,11 +54,9 @@ export default async function ListPage({
       <div className="sm:h-64 h-72 relative object-cover">
         <Image src={backgroundImage} alt="" fill className="object-cover" />
       </div>
-      <div className="md:ml-36 lg:ml-44 ml-8 md:mt-20 mt-12 mr-20">
+      <div className="md:ml-36 lg:ml-32 ml-8 md:mt-20 mt-12 mr-20">
         <ListNameForm listName={list?.name || ""} />
-        <div className="pl-4">
-          <ListItems listItems={list?.items || []} />
-        </div>
+        <ListItems listItems={listItems} />
       </div>
     </div>
   );
