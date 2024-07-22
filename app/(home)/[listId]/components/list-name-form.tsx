@@ -68,7 +68,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
       {!isEditing && (
         <>
           <Button variant="ghost" onClick={onEdit} className="p-6 ml-0">
-            <p className="font-bold text-4xl overflow-hidden">{listName}</p>
+            <p className="font-bold text-3xl overflow-hidden">{listName}</p>
           </Button>
         </>
       )}
@@ -88,7 +88,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
                           disabled={loading}
                           placeholder={listName}
                           {...field}
-                          className="h-16 w-[350px] text-4xl font-bold"
+                          className="h-12 w-[350px] text-3xl font-bold"
                         />
                       </FormControl>
                       <FormMessage />

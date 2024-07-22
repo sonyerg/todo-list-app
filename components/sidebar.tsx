@@ -35,7 +35,7 @@ export default async function SideBar() {
       <Separator />
       <div className="flex justify-between items-center">
         <h2 className="font-bold uppercase md:text-lg">
-          <Link href={"/"}>Todo Lists</Link>
+          <Link href={"/"}>To-do Lists</Link>
         </h2>
         <NewListButton />
       </div>
