@@ -6,6 +6,7 @@ import { Item } from "@prisma/client";
 import { X } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import CircularProgress from "@mui/joy/CircularProgress";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
     Array(listItems.length).fill(false)
   );
   const [isEditing, setIsEditing] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
   const [editValue, setEditValue] = useState<string>("");
 
   const params = useParams();
@@ -38,32 +39,30 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
 
   async function onSave(itemId: string) {
     try {
-      setIsLoading(true);
+      setIsLoading(itemId);
 
       await axios.patch(`/api/${params.listId}/items/${itemId}`, {
         item: editValue,
       });
 
-      setIsEditing(null);
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
-      setIsLoading(false);
+      setIsEditing(null);
+      setIsLoading(null);
     }
   }
 
   async function onDelete(itemId: string) {
     try {
-      setIsLoading(true);
+      setIsLoading(itemId);
 
       await axios.delete(`/api/${params.listId}/items/${itemId}`);
 
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -82,14 +81,14 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
               <Button
                 variant="ghost"
                 onClick={() => onSave(item.id)}
-                disabled={isLoading}
+                disabled={isLoading === item.id}
               >
                 Save
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setIsEditing(null)}
-                disabled={isLoading}
+                disabled={isLoading === item.id}
               >
                 Cancel
               </Button>
@@ -105,15 +104,19 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
                   <p
                     className={`text-base text-left overflow-hidden overflow-ellipsis ${
                       checkedItems[index] ? "line-through" : ""
-                    } ${isLoading ? "text-gray-500" : ""}`}
+                    } ${isLoading === item.id ? "text-gray-500" : ""}`}
                   >
                     {item.item}
                   </p>
                 </div>
               </Button>
-              <button onClick={() => onDelete(item.id)}>
-                <X size={20} className="group-hover:opacity-100 opacity-0" />
-              </button>
+              {isLoading === item.id ? (
+                <CircularProgress size="sm" />
+              ) : (
+                <button onClick={() => onDelete(item.id)}>
+                  <X size={20} className="group-hover:opacity-100 opacity-0" />
+                </button>
+              )}
             </>
           )}
         </div>

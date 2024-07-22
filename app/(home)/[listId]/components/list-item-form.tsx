@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -31,6 +31,11 @@ export default function ListItemForm() {
   const params = useParams();
 
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [inputRef, loading]);
 
   const form = useForm<ListItemFormValue>({
     resolver: zodResolver(formSchema),
@@ -44,12 +49,15 @@ export default function ListItemForm() {
       setLoading(true);
 
       await axios.post(`/api/${params.listId}/items`, data);
-      form.reset();
+
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+        form.reset();
+      }, 900);
     }
   };
 
@@ -68,6 +76,7 @@ export default function ListItemForm() {
                       disabled={loading}
                       placeholder="Add a to-do"
                       {...field}
+                      ref={inputRef}
                     />
                   </FormControl>
                   <FormMessage />
