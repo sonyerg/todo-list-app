@@ -52,8 +52,8 @@ export default function ListNameForm({ listName }: { listName: string }) {
       toast.error("Something went wrong");
     } finally {
       setTimeout(() => {
-      setLoading(false);
-      setIsEditing(false);
+        setLoading(false);
+        setIsEditing(false);
       }, 500);
     }
   };
@@ -67,9 +67,8 @@ export default function ListNameForm({ listName }: { listName: string }) {
       {/** TODO: fix overflow */}
       {!isEditing && (
         <>
-          <p className="font-bold text-4xl overflow-hidden">{listName}</p>
-          <Button variant="ghost" onClick={onEdit}>
-            <Edit size={30} />
+          <Button variant="ghost" onClick={onEdit} className="p-6 ml-0">
+            <p className="font-bold text-4xl overflow-hidden">{listName}</p>
           </Button>
         </>
       )}
