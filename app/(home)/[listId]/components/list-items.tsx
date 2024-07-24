@@ -101,6 +101,7 @@ export default function ListItems({ listItems }: { listItems: Item[] }) {
                 ref={inputRef}
                 value={editValue}
                 onChange={(e) => setEditValue(e.target.value)}
+                disabled={isLoading === item.id}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     onSave(item.id);

@@ -77,7 +77,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
         <div className="w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex sm:flex-row flex-col gap-2 sm:items-center ">
+              <div className="flex flex-row gap-2 items-center ">
                 <FormField
                   control={form.control}
                   name="name"
@@ -88,7 +88,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
                           disabled={loading}
                           placeholder={listName}
                           {...field}
-                          className="h-12 w-[350px] text-3xl font-bold"
+                          className="h-12 md:w-[350px] w-[250px] text-3xl font-bold"
                         />
                       </FormControl>
                       <FormMessage />
@@ -96,7 +96,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
                   )}
                 />
                 <Button
-                  size="lg"
+                  size="sm"
                   variant="ghost"
                   type="submit"
                   disabled={loading}
@@ -104,7 +104,7 @@ export default function ListNameForm({ listName }: { listName: string }) {
                   <Check size={30} />
                 </Button>
                 <Button
-                  size="lg"
+                  size="sm"
                   variant="ghost"
                   disabled={loading}
                   onClick={() => setIsEditing(false)}

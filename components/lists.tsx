@@ -11,7 +11,12 @@ import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/alert-modal";
 import { useRouter } from "next/navigation";
 
-export default function Lists({ lists }: { lists: List[] }) {
+interface ListsProps {
+  lists: List[];
+  setMobileMenu?: () => void;
+}
+
+export default function Lists({ lists, setMobileMenu }: ListsProps) {
   const router = useRouter();
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -56,7 +61,11 @@ export default function Lists({ lists }: { lists: List[] }) {
             className="group flex justify-between items-center"
           >
             <Link href={`/${list.id}`}>
-              <Button variant="link" className="flex justify-start w-full">
+              <Button
+                variant="link"
+                className="flex justify-start w-full"
+                onClick={setMobileMenu}
+              >
                 <p className="text-base font-medium">{list.name}</p>
               </Button>
             </Link>
