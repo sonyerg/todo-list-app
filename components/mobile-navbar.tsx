@@ -4,6 +4,7 @@ import { Menu } from "lucide-react";
 import { redirect } from "next/navigation";
 import MobileMenu from "./mobile-menu";
 import prismadb from "@/lib/prismadb";
+import { ThemeToggle } from "./theme-toggle";
 
 export default async function MobileNavBar() {
   const { userId } = auth();
@@ -24,16 +25,13 @@ export default async function MobileNavBar() {
   return (
     <div className="h-12 w-full flex flex-row items-center justify-between">
       <MobileMenu lists={lists} />
-      {!userId && (
-        <div className="mr-4">
-          <SignInButton />
+      <div className="flex flex-row items-center pr-2 gap-x-3">
+        <ThemeToggle />
+        <div className="mt-2">
+          {!userId && <SignInButton />}
+          {userId && <UserButton />}
         </div>
-      )}
-      {userId && (
-        <div className="mr-4 mt-2">
-          <UserButton />
-        </div>
-      )}
+      </div>
     </div>
   );
 }
