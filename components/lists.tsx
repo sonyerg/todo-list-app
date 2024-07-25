@@ -49,7 +49,7 @@ export default function Lists({ lists, setMobileMenu }: ListsProps) {
           }
         }}
       />
-      <div className="flex flex-col gap-1 border rounded-md overflow-auto py-2 pr-2">
+      <div className="flex flex-col gap-1 border rounded-md overflow-auto py-2 pr-2 bg-gray-100 dark:bg-slate-900">
         {lists.length === 0 && (
           <div className="flex justify-center items-center w-full my-10">
             <p className="font-medium">No Lists Available</p>

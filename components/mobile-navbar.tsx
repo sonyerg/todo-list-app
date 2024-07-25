@@ -1,7 +1,7 @@
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
-import { Menu } from "lucide-react";
 import { redirect } from "next/navigation";
+
 import MobileMenu from "./mobile-menu";
 import prismadb from "@/lib/prismadb";
 import { ThemeToggle } from "./theme-toggle";

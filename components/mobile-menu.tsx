@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { List } from "@prisma/client";
 import Link from "next/link";
+
 import NewListButton from "./new-list-button";
 import Lists from "./lists";
-import { List } from "@prisma/client";
 
 export default function MobileMenu({ lists }: { lists: List[] }) {
   const [menu, setMenu] = useState(false);
