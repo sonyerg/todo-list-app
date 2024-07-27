@@ -60,7 +60,7 @@ export default function Lists({ lists, setMobileMenu }: ListsProps) {
             key={list.id}
             className="group flex justify-between items-center"
           >
-            <Link href={`/${list.id}`}>
+            <Link href={`/todo-list/${list.id}`}>
               <Button
                 variant="link"
                 className="flex justify-start w-full"
